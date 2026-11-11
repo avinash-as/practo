@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Content Creation Workflow</title>
+<style>
+:root{--bg:#0b1020;--card:#161b2e;--text:#f8fafc;--muted:#94a3b8;--border:#2a3150;--primary:#4f46e5;--accent:#f59e0b;--success:#22c55e}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);padding:32px 16px}
+h1{text-align:center;font-size:28px;margin:0 0 6px}p.sub{text-align:center;color:var(--muted);margin:0 0 32px;font-size:14px}
+.flow{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:14px;align-items:center}
+.step{width:100%;max-width:760px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.step .num{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.step .body h3{margin:0 0 4px;font-size:16px}
+.step .body p{margin:0;color:var(--muted);font-size:13px}
+.step .tool{display:inline-block;margin-top:6px;padding:3px 9px;border-radius:999px;background:rgba(99,102,241,.18);border:1px solid rgba(99,102,241,.35);font-size:11px;font-weight:600;color:#c7d2fe}
+.arrow{text-align:center;color:var(--muted);font-size:22px;margin:-4px 0}
+.branch{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:760px}
+.branch .step{max-width:none}
+.tools{margin-top:32px;max-width:980px;margin-left:auto;margin-right:auto}
+.tools h2{text-align:center;font-size:20px;margin:0 0 16px}
+.toolgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.toolcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+.toolcard h3{margin:0 0 4px;font-size:14px}
+.toolcard p{margin:0;color:var(--muted);font-size:12px}
+@media(max-width:700px){.branch{grid-template-columns:1fr}.toolgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>AI-Powered Content Creation System</h1>
+<p class="sub">Founder idea → research → copy → design → editable carousel → review → export</p>
+<div class="flow">
+  <div class="step"><div class="num">1</div><div class="body"><h3>Founder enters a raw idea</h3><p>A one-line topic, angle or hook. e.g. "5 AI tools every student should know".</p><span class="tool">Notion / Google Doc / Form</span></div></div>
+  <div class="arrow">↓</div>
+  <div class="step"><div class="num">2</div><div class="body"><h3>AI researches & structures</h3><p>LLM (ChatGPT/Claude/Perplexity) expands the idea: audience, key points, slide outline, hook, CTA.</p><span class="tool">ChatGPT · Claude · Perplexity</span></div></div>
+  <div class="arrow">↓</div>
+  <div class="step"><div class="num">3</div><div class="body"><h3>Generate headlines & slide copy</h3><p>Slide-by-slide copy: title, body, micro-copy, hashtags, caption. Output as structured JSON/Markdown.</p><span class="tool">Claude / GPT-4o with prompt template</span></div></div>
+  <div class="arrow">↓</div>
+  <div class="step"><div class="num">4</div><div class="body"><h3>Visual direction, layout & design</h3><p>AI suggests palette, typography, layout per slide. Rendered via Canva template or code (Pillow/HTML→image).</p><span class="tool">Canva · Figma · Python/Pillow · HTML→PNG</span></div></div>
+  <div class="arrow">↓</div>
+  <div class="branch">
+    <div class="step"><div class="num">5a</div><div class="body"><h3>Editable carousel</h3><p>Canva/Figma file the founder can tweak (text, colors, images) in minutes.</p><span class="tool">Canva · Figma</span></div></div>
+    <div class="step"><div class="num">5b</div><div class="body"><h3>Ready-to-publish PNGs</h3><p>Exported 1080×1080 slides, named and ordered, plus caption .txt.</p><span class="tool">Export / cloud storage</span></div></div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="step"><div class="num">6</div><div class="body"><h3>Founder reviews & minor edits</h3><p>Swap words, fix facts, adjust branding. Approve or request regeneration of a slide.</p><span class="tool">Canva / Figma editor</span></div></div>
+  <div class="arrow">↓</div>
+  <div class="step"><div class="num">7</div><div class="body"><h3>Export & publish</h3><p>Download final assets; schedule via Buffer/Later/Meta Business Suite; auto-post to IG & LinkedIn.</p><span class="tool">Buffer · Later · n8n/Make</span></div></div>
+</div>
+
+<div class="tools">
+  <h2>Automation layer (connects the steps)</h2>
+  <div class="toolgrid">
+    <div class="toolcard"><h3>Trigger</h3><p>Founder submits idea via Notion form / Google Form / Slack command.</p></div>
+    <div class="toolcard"><h3>Orchestration</h3><p>Make or n8n workflow calls LLM API → parses JSON → generates images → uploads to Drive/Canva.</p></div>
+    <div class="toolcard"><h3>Notification</h3><p>Slack/Email ping: "Carousel ready for review" with preview link.</p></div>
+    <div class="toolcard"><h3>Storage</h3><p>Google Drive folder per post: slides + caption + metadata.</p></div>
+    <div class="toolcard"><h3>Publishing</h3><p>Scheduled auto-post to Instagram & LinkedIn via Buffer/Meta API.</p></div>
+    <div class="toolcard"><h3>Analytics</h3><p>Track engagement; feed top performers back as prompts for next ideas.</p></div>
+  </div>
+</div>
+</body>
+</html>

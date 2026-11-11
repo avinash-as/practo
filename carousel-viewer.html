@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample Carousel — 5 AI tools every student should know</title>
+<style>
+:root{--bg:#0b1020;--card:#161b2e;--text:#f8fafc;--muted:#94a3b8;--border:#2a3150;--primary:#4f46e5;--accent:#f59e0b}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 16px}
+h1{font-size:26px;margin:0 0 6px}p.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.stage{position:relative;width:min(420px,90vw);aspect-ratio:1/1;background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5);border:1px solid var(--border)}
+.stage img{width:100%;height:100%;object-fit:cover;display:block}
+.controls{display:flex;gap:12px;margin-top:18px;align-items:center}
+.btn{padding:10px 18px;border-radius:10px;border:0;cursor:pointer;font-weight:700;font-size:14px;background:var(--primary);color:#fff}
+.btn.secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--border)}
+.counter{font-size:14px;color:var(--muted);min-width:60px;text-align:center}
+.thumbs{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap;justify-content:center;max-width:90vw}
+.thumbs img{width:64px;height:64px;border-radius:8px;object-fit:cover;cursor:pointer;border:2px solid transparent;opacity:.6}
+.thumbs img.active{border-color:var(--accent);opacity:1}
+.notes{margin-top:24px;max-width:720px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;font-size:14px;color:var(--muted)}
+.notes h3{color:var(--text);margin:0 0 8px;font-size:15px}
+.notes ul{margin:0;padding-left:18px}
+</style>
+</head>
+<body>
+<h1>Sample Carousel — 5 AI tools every student should know</h1>
+<p class="sub">8 slides · 1080×1080 · Instagram / LinkedIn ready</p>
+<div class="stage"><img id="slide" src="carousel/slide_01_cover.png" alt="slide"></div>
+<div class="controls">
+  <button class="btn secondary" onclick="prev()">← Prev</button>
+  <div class="counter" id="counter">1 / 8</div>
+  <button class="btn" onclick="next()">Next →</button>
+</div>
+<div class="thumbs" id="thumbs"></div>
+<div class="notes">
+  <h3>How this carousel was made (workflow)</h3>
+  <ul>
+    <li>Founder enters raw idea → AI (ChatGPT/Claude) researches & structures into 8 slides.</li>
+    <li>AI generates slide-by-slide copy + visual direction.</li>
+    <li>Design rendered via Python/Pillow (or Canva template) → exported PNGs.</li>
+    <li>Founder reviews, makes minor edits, exports & publishes.</li>
+  </ul>
+</div>
+<script>
+const slides=["carousel/slide_01_cover.png","carousel/slide_02_chatgpt.png","carousel/slide_03_claude.png","carousel/slide_04_perplexity.png","carousel/slide_05_canva.png","carousel/slide_06_make.png","carousel/slide_07_recap.png","carousel/slide_08_cta.png"];
+let i=0;
+const img=document.getElementById('slide'), counter=document.getElementById('counter'), thumbs=document.getElementById('thumbs');
+slides.forEach((s,idx)=>{const t=document.createElement('img');t.src=s;t.onclick=()=>go(idx);thumbs.appendChild(t);});
+function go(n){i=(n+slides.length)%slides.length;img.src=slides[i];counter.textContent=(i+1)+' / '+slides.length;document.querySelectorAll('.thumbs img').forEach((t,idx)=>t.classList.toggle('active',idx===i));}
+function next(){go(i+1)}function prev(){go(i-1)}
+go(0);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev();});
+</script>
+</body>
+</html>

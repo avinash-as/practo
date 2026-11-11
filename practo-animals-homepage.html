@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practo for Animals — Find trusted care for your pets & animals</title>
+<style>
+:root{
+  --primary:#0f766e; --primary-2:#14b8a6; --accent:#f97316; --accent-2:#fb923c;
+  --bg:#f8fafc; --card:#ffffff; --text:#0f172a; --muted:#64748b; --border:#e2e8f0;
+  --danger:#dc2626; --success:#16a34a; --shadow:0 10px 30px rgba(15,23,42,.08);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;border:0;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(249,115,22,.3)}
+.btn-secondary{background:var(--primary);color:#fff}
+.btn-outline{background:#fff;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-ghost{background:transparent;color:var(--text)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--border);font-size:13px;font-weight:500;cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--primary);color:var(--primary)}
+.chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* Top bar */
+.topbar{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;max-width:1200px;margin:0 auto;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--primary)}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-2));display:grid;place-items:center;color:#fff;font-size:18px}
+.nav{display:flex;gap:22px;font-size:14px;font-weight:500;color:var(--muted)}
+.nav a:hover{color:var(--primary)}
+.top-actions{display:flex;gap:10px;align-items:center}
+
+/* Emergency banner */
+.emergency{background:linear-gradient(90deg,#dc2626,#ef4444);color:#fff;padding:10px 20px;text-align:center;font-size:14px;font-weight:600}
+.emergency a{color:#fff;text-decoration:underline;margin-left:8px}
+
+/* Hero */
+.hero{background:linear-gradient(160deg,#ecfeff 0%,#f0fdfa 40%,#fff7ed 100%);padding:48px 0 60px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:44px;line-height:1.1;margin:0 0 14px;letter-spacing:-.02em}
+.hero h1 span{color:var(--primary)}
+.hero p{font-size:17px;color:var(--muted);margin:0 0 24px;max-width:520px}
+.search-card{background:#fff;border-radius:18px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.search-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.field input,.field select{padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:#fff}
+.field input:focus,.field select:focus{outline:none;border-color:var(--primary)}
+.search-btn{align-self:end;padding:12px 22px}
+.quick-cats{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.hero-visual{position:relative}
+.hero-img{background:linear-gradient(135deg,#99f6e4,#fde68a);border-radius:24px;aspect-ratio:4/3;display:grid;place-items:center;font-size:96px;box-shadow:var(--shadow)}
+.floating{position:absolute;background:#fff;border-radius:12px;padding:10px 14px;box-shadow:var(--shadow);font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.f1{top:12px;right:-10px}.f2{bottom:24px;left:-14px}
+
+/* Categories */
+.section{padding:56px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+.section-head h2{font-size:28px;margin:0;letter-spacing:-.01em}
+.section-head p{color:var(--muted);margin:4px 0 0;font-size:15px}
+.cat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.cat-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px 14px;text-align:center;transition:.2s;cursor:pointer}
+.cat-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:var(--shadow)}
+.cat-icon{font-size:34px;margin-bottom:8px}
+.cat-card h3{font-size:14px;margin:0 0 2px}
+.cat-card span{font-size:12px;color:var(--muted)}
+
+/* Layout with filters + results */
+.layout{display:grid;grid-template-columns:260px 1fr;gap:24px;padding:0 0 40px}
+.filters{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;position:sticky;top:80px;height:fit-content}
+.filters h3{font-size:15px;margin:0 0 14px}
+.filter-group{margin-bottom:18px}
+.filter-group label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.filter-group .opts{display:flex;flex-direction:column;gap:6px}
+.filter-group .opts label{display:flex;align-items:center;gap:8px;font-size:13px;text-transform:none;font-weight:500;color:var(--text);margin:0;cursor:pointer}
+.filter-group input[type=checkbox]{accent-color:var(--primary)}
+.range{width:100%}
+.results-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.sort{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:#fff}
+.provider-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;display:grid;grid-template-columns:96px 1fr auto;gap:16px;margin-bottom:14px;transition:.2s}
+.provider-card:hover{box-shadow:var(--shadow);border-color:#cbd5e1}
+.p-img{width:96px;height:96px;border-radius:12px;background:linear-gradient(135deg,#ccfbf1,#fef3c7);display:grid;place-items:center;font-size:40px}
+.p-info h3{margin:0 0 2px;font-size:17px}
+.p-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--muted);margin:4px 0 8px}
+.p-meta .rating{color:#f59e0b;font-weight:700}
+.p-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tag{font-size:11px;padding:3px 9px;border-radius:999px;background:#f1f5f9;color:#475569;font-weight:600}
+.tag.emergency{background:#fee2e2;color:#991b1b}
+.tag.verified{background:#dcfce7;color:#166534}
+.p-actions{display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:120px}
+.p-actions .btn{padding:9px 12px;font-size:13px;justify-content:center}
+
+/* How it works */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center}
+.step-num{width:44px;height:44px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;margin:0 auto 12px;font-weight:800}
+.step h3{margin:0 0 6px;font-size:16px}
+.step p{color:var(--muted);font-size:14px;margin:0}
+
+/* Trust */
+.trust{background:linear-gradient(135deg,var(--primary),#0d9488);color:#fff;border-radius:20px;padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+.trust h2{font-size:28px;margin:0 0 8px}
+.trust p{opacity:.9;margin:0 0 18px}
+.trust-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+.trust-stats .n{font-size:28px;font-weight:800}
+.trust-stats .l{font-size:12px;opacity:.85}
+
+/* Provider CTA */
+.dual-cta{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cta-card{border-radius:18px;padding:28px;color:#fff}
+.cta-card h3{font-size:20px;margin:0 0 6px}
+.cta-card p{opacity:.9;margin:0 0 14px;font-size:14px}
+.cta-card.a{background:linear-gradient(135deg,#f97316,#fb923c)}
+.cta-card.b{background:linear-gradient(135deg,#0f766e,#14b8a6)}
+
+/* Footer */
+footer{background:#0f172a;color:#cbd5e1;padding:48px 0 24px;margin-top:40px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}
+footer h4{color:#fff;margin:0 0 12px;font-size:14px}
+footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:13px}
+footer a:hover{color:#fff}
+.footer-bottom{border-top:1px solid #1e293b;margin-top:32px;padding-top:18px;display:flex;justify-content:space-between;font-size:12px;color:#64748b;flex-wrap:wrap;gap:8px}
+
+/* Mobile */
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .cat-grid{grid-template-columns:repeat(3,1fr)}
+  .layout{grid-template-columns:1fr}
+  .filters{position:static}
+  .trust{grid-template-columns:1fr}
+  .dual-cta{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .search-row{grid-template-columns:1fr 1fr}
+  .search-btn{grid-column:1/-1}
+  .provider-card{grid-template-columns:72px 1fr}
+  .p-actions{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}
+  .nav{display:none}
+}
+@media (max-width:560px){
+  .hero h1{font-size:32px}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .search-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="emergency">
+  🚨 Pet emergency? Find 24/7 ambulances & emergency vets near you. <a href="#emergency">Get help now →</a>
+</div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="#"><span class="logo-mark">🐾</span> Practo for Animals</a>
+    <nav class="nav">
+      <a href="#">Find Care</a>
+      <a href="#">Services</a>
+      <a href="#">NGOs & Rescues</a>
+      <a href="#">For Providers</a>
+      <a href="#">Resources</a>
+    </nav>
+    <div class="top-actions">
+      <a class="btn btn-ghost" href="#">Sign in</a>
+      <a class="btn btn-secondary" href="#">List Your Business</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <h1>Find trusted <span>animal care</span> near you — vets, clinics, boarding & more.</h1>
+      <p>Search verified veterinary clinics, hospitals, boarding facilities, diagnostics, ambulances and NGOs. Compare reviews, prices and availability, and book in seconds.</p>
+      <div class="search-card">
+        <div class="search-row">
+          <div class="field">
+            <label>Location</label>
+            <input type="text" placeholder="City, area or pincode">
+          </div>
+          <div class="field">
+            <label>Service</label>
+            <select>
+              <option>Any service</option>
+              <option>Veterinary clinic</option>
+              <option>Hospital</option>
+              <option>Boarding & daycare</option>
+              <option>Diagnostics / Lab</option>
+              <option>Pet ambulance</option>
+              <option>NGO / Rescue</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Animal</label>
+            <select>
+              <option>Any animal</option>
+              <option>Dog</option>
+              <option>Cat</option>
+              <option>Bird</option>
+              <option>Rabbit / Small pet</option>
+              <option>Livestock</option>
+              <option>Exotic</option>
+            </select>
+          </div>
+          <button class="btn btn-primary search-btn">🔍 Search</button>
+        </div>
+        <div class="quick-cats">
+          <span class="chip active">🐾 Vets near me</span>
+          <span class="chip">🏥 24/7 Hospitals</span>
+          <span class="chip">🚑 Ambulance</span>
+          <span class="chip">🏠 Boarding</span>
+          <span class="chip">🔬 Diagnostics</span>
+          <span class="chip">❤️ NGOs</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img">🐕🐈</div>
+      <div class="floating f1">⭐ 4.8 · 1,240 reviews</div>
+      <div class="floating f2">✅ Verified clinic · Open now</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div><h2>Browse by service</h2><p>Everything your animal might need, in one place.</p></div>
+      <a class="btn btn-outline" href="#">Explore all services →</a>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card"><div class="cat-icon">🩺</div><h3>Veterinary Clinics</h3><span>1,240 providers</span></div>
+      <div class="cat-card"><div class="cat-icon">🏥</div><h3>Hospitals</h3><span>320 providers</span></div>
+      <div class="cat-card"><div class="cat-icon">🏠</div><h3>Boarding & Daycare</h3><span>580 providers</span></div>
+      <div class="cat-card"><div class="cat-icon">🔬</div><h3>Diagnostics & Labs</h3><span>210 providers</span></div>
+      <div class="cat-card"><div class="cat-icon">🚑</div><h3>Pet Ambulance</h3><span>95 providers</span></div>
+      <div class="cat-card"><div class="cat-icon">❤️</div><h3>NGOs & Rescues</h3><span>160 providers</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="layout">
+      <aside class="filters">
+        <h3>Filters</h3>
+        <div class="filter-group">
+          <label>Distance</label>
+          <input class="range" type="range" min="1" max="50" value="10">
+          <div style="font-size:12px;color:var(--muted);margin-top:4px">Within 10 km</div>
+        </div>
+        <div class="filter-group">
+          <label>Rating</label>
+          <div class="opts">
+            <label><input type="checkbox" checked> 4.5+ (Excellent)</label>
+            <label><input type="checkbox"> 4.0+ (Very good)</label>
+            <label><input type="checkbox"> 3.5+ (Good)</label>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Availability</label>
+          <div class="opts">
+            <label><input type="checkbox" checked> Open now</label>
+            <label><input type="checkbox"> Open 24/7</label>
+            <label><input type="checkbox"> Weekend open</label>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Services</label>
+          <div class="opts">
+            <label><input type="checkbox"> Emergency care</label>
+            <label><input type="checkbox"> Surgery</label>
+            <label><input type="checkbox"> Vaccination</label>
+            <label><input type="checkbox"> Grooming</label>
+            <label><input type="checkbox"> Home visits</label>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Trust & price</label>
+          <div class="opts">
+            <label><input type="checkbox" checked> Verified only</label>
+            <label><input type="checkbox"> Insurance accepted</label>
+            <label><input type="checkbox"> Budget (₹)</label>
+            <label><input type="checkbox"> Premium (₹₹₹)</label>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center">Apply filters</button>
+      </aside>
+
+      <main>
+        <div class="results-head">
+          <div><strong>248 providers</strong> <span style="color:var(--muted)">· Bangalore · Vets</span></div>
+          <select class="sort">
+            <option>Sort: Relevance</option>
+            <option>Sort: Rating (high to low)</option>
+            <option>Sort: Distance (nearest)</option>
+            <option>Sort: Price (low to high)</option>
+          </select>
+        </div>
+
+        <div class="provider-card">
+          <div class="p-img">🏥</div>
+          <div class="p-info">
+            <h3>Paws & Claws Veterinary Clinic</h3>
+            <div class="p-meta">
+              <span class="rating">★ 4.8</span><span>(312 reviews)</span><span>· 2.3 km</span><span>· Indiranagar</span>
+            </div>
+            <div class="p-tags">
+              <span class="tag verified">✓ Verified</span>
+              <span class="tag emergency">24/7 Emergency</span>
+              <span class="tag">Dogs, Cats, Birds</span>
+              <span class="tag">Surgery</span>
+              <span class="tag">Vaccination</span>
+            </div>
+            <div style="font-size:13px;color:var(--muted)">Open now · Closes 9:00 PM · ₹₹ · English, Hindi, Kannada</div>
+          </div>
+          <div class="p-actions">
+            <a class="btn btn-primary" href="#">Book</a>
+            <a class="btn btn-outline" href="#">Call</a>
+            <a class="btn btn-ghost" href="#">Directions</a>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div class="p-img">🐕</div>
+          <div class="p-info">
+            <h3>Happy Tails Animal Hospital</h3>
+            <div class="p-meta">
+              <span class="rating">★ 4.6</span><span>(189 reviews)</span><span>· 4.1 km</span><span>· Koramangala</span>
+            </div>
+            <div class="p-tags">
+              <span class="tag verified">✓ Verified</span>
+              <span class="tag">Dogs, Cats</span>
+              <span class="tag">ICU</span>
+              <span class="tag">X-Ray</span>
+            </div>
+            <div style="font-size:13px;color:var(--muted)">Open now · Closes 8:00 PM · ₹₹₹ · English, Hindi</div>
+          </div>
+          <div class="p-actions">
+            <a class="btn btn-primary" href="#">Book</a>
+            <a class="btn btn-outline" href="#">Call</a>
+            <a class="btn btn-ghost" href="#">Directions</a>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div class="p-img">🚑</div>
+          <div class="p-info">
+            <h3>Rapid Pet Ambulance</h3>
+            <div class="p-meta">
+              <span class="rating">★ 4.9</span><span>(76 reviews)</span><span>· 1.8 km</span><span>· HSR Layout</span>
+            </div>
+            <div class="p-tags">
+              <span class="tag verified">✓ Verified</span>
+              <span class="tag emergency">24/7</span>
+              <span class="tag">Emergency transport</span>
+              <span class="tag">Oxygen support</span>
+            </div>
+            <div style="font-size:13px;color:var(--muted)">Available now · Avg response 12 min · ₹₹</div>
+          </div>
+          <div class="p-actions">
+            <a class="btn btn-primary" href="#">Call now</a>
+            <a class="btn btn-outline" href="#">Track</a>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div class="p-img">🏠</div>
+          <div class="p-info">
+            <h3>Cozy Paws Boarding & Daycare</h3>
+            <div class="p-meta">
+              <span class="rating">★ 4.7</span><span>(145 reviews)</span><span>· 5.6 km</span><span>· Whitefield</span>
+            </div>
+            <div class="p-tags">
+              <span class="tag">Dogs, Cats</span>
+              <span class="tag">AC rooms</span>
+              <span class="tag">CCTV</span>
+              <span class="tag">Grooming</span>
+            </div>
+            <div style="font-size:13px;color:var(--muted)">Open · Check-in 9 AM · ₹₹ · 12 beds available</div>
+          </div>
+          <div class="p-actions">
+            <a class="btn btn-primary" href="#">Book stay</a>
+            <a class="btn btn-outline" href="#">Call</a>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:18px">
+          <a class="btn btn-outline" href="#">Load more providers</a>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head"><div><h2>How it works</h2><p>From search to care in three steps.</p></div></div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Search & filter</h3><p>Enter your location and animal type, then filter by service, rating, distance and availability.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Compare providers</h3><p>Read reviews, check services, prices, photos and opening hours to pick the best fit.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Book or call</h3><p>Book an appointment, request an ambulance or message the provider directly.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="trust">
+      <div>
+        <h2>Trusted by pet parents & animal lovers</h2>
+        <p>Every provider is verified for credentials, hygiene and real reviews. Spot something wrong? Submit a correction and we'll fix it fast.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn" style="background:#fff;color:var(--primary)" href="#">Find a Vet</a>
+          <a class="btn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4)" href="#">Submit a Correction</a>
+        </div>
+      </div>
+      <div class="trust-stats">
+        <div><div class="n">2,600+</div><div class="l">Verified providers</div></div>
+        <div><div class="n">1.2M</div><div class="l">Searches / month</div></div>
+        <div><div class="n">4.7★</div><div class="l">Avg rating</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="dual-cta">
+      <div class="cta-card a">
+        <h3>Run an animal-care business?</h3>
+        <p>List your clinic, hospital, boarding or ambulance. Reach thousands of pet parents and manage bookings.</p>
+        <a class="btn" style="background:#fff;color:#ea580c" href="#">List Your Business</a>
+      </div>
+      <div class="cta-card b">
+        <h3>Spot incorrect info?</h3>
+        <p>Help us keep listings accurate. Submit a correction and earn community trust points.</p>
+        <a class="btn" style="background:#fff;color:var(--primary)" href="#">Submit a Correction</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#" style="color:#fff;margin-bottom:12px"><span class="logo-mark">🐾</span> Practo for Animals</a>
+        <p style="font-size:13px;color:#94a3b8;margin:12px 0 0;max-width:300px">India's trusted discovery platform for veterinary clinics, hospitals, boarding, diagnostics, ambulances and animal NGOs.</p>
+      </div>
+      <div><h4>Discover</h4><ul><li><a href="#">Find a Vet</a></li><li><a href="#">Explore Services</a></li><li><a href="#">NGOs & Rescues</a></li><li><a href="#">Emergency Care</a></li></ul></div>
+      <div><h4>For Providers</h4><ul><li><a href="#">List Your Business</a></li><li><a href="#">Provider Dashboard</a></li><li><a href="#">Pricing</a></li><li><a href="#">Support</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Practo for Animals. All rights reserved.</span>
+      <span>Privacy · Terms · Submit a Correction</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

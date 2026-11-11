@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Launchpad — Practical AI & Digital Skills for Students & Professionals</title>
+<style>
+:root{
+  --primary:#4f46e5; --primary-2:#6366f1; --accent:#f59e0b; --accent-2:#fbbf24;
+  --bg:#0b1020; --bg2:#111827; --card:#161b2e; --card2:#1f2540; --text:#f8fafc; --muted:#94a3b8; --border:#2a3150;
+  --success:#22c55e; --shadow:0 20px 50px rgba(0,0,0,.4); --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+a{color:inherit;text-decoration:none}
+.container{max-width:1180px;margin:0 auto;padding:0 22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:12px;font-weight:700;font-size:14px;border:0;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;box-shadow:0 8px 24px rgba(79,70,229,.45)}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#111827;box-shadow:0 8px 24px rgba(245,158,11,.35)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid var(--border)}
+.btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--border)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.35);font-size:12px;font-weight:600;color:#c7d2fe}
+
+/* Nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(11,16,32,.75);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;max-width:1180px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;font-size:16px}
+.nav-links{display:flex;gap:20px;font-size:14px;color:var(--muted)}
+.nav-links a:hover{color:#fff}
+.nav-cta{display:flex;gap:10px}
+
+/* Hero */
+.hero{padding:72px 0 60px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(800px 400px at 80% 20%,rgba(99,102,241,.25),transparent),radial-gradient(600px 300px at 10% 80%,rgba(245,158,11,.15),transparent)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;position:relative}
+.hero h1{font-size:52px;line-height:1.05;margin:0 0 16px;letter-spacing:-.02em}
+.hero h1 .grad{background:linear-gradient(135deg,#818cf8,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:18px;color:var(--muted);margin:0 0 26px;max-width:560px}
+.hero-badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+.hero-form{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.hero-form h3{margin:0 0 4px;font-size:18px}
+.hero-form p{margin:0 0 14px;font-size:13px;color:var(--muted)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-row.single{grid-template-columns:1fr}
+.field input,.field select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:var(--bg2);color:#fff}
+.field input:focus,.field select:focus{outline:none;border-color:var(--primary)}
+.hero-form .btn{width:100%;justify-content:center;margin-top:6px}
+.hero-form .note{font-size:11px;color:var(--muted);margin-top:8px;text-align:center}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+.stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.stat .n{font-size:22px;font-weight:800}
+.stat .l{font-size:11px;color:var(--muted)}
+
+/* Logos/trust */
+.logos{padding:28px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.logos-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.logos span{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.05em}
+
+/* Section */
+.section{padding:72px 0}
+.section-head{text-align:center;margin-bottom:40px}
+.section-head .eyebrow{color:var(--primary-2);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.section-head h2{font-size:36px;margin:0 0 10px;letter-spacing:-.01em}
+.section-head p{color:var(--muted);font-size:16px;max-width:620px;margin:0 auto}
+
+/* Problem */
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.problem-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px}
+.problem-card h3{margin:0 0 6px;font-size:17px}
+.problem-card p{color:var(--muted);font-size:14px;margin:0}
+.problem-card .ico{font-size:26px;margin-bottom:10px}
+
+/* Outcomes */
+.outcomes{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.outcome{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:14px;padding:22px;text-align:center}
+.outcome .ico{font-size:30px;margin-bottom:10px}
+.outcome h3{margin:0 0 4px;font-size:15px}
+.outcome p{color:var(--muted);font-size:13px;margin:0}
+
+/* Curriculum */
+.curriculum{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mod{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;gap:14px}
+.mod .num{width:40px;height:40px;border-radius:10px;background:rgba(99,102,241,.2);color:#c7d2fe;display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.mod h3{margin:0 0 4px;font-size:16px}
+.mod p{color:var(--muted);font-size:13px;margin:0}
+
+/* Who */
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.who{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px}
+.who h3{margin:0 0 6px;font-size:16px}
+.who p{color:var(--muted);font-size:13px;margin:0}
+.who .ico{font-size:26px;margin-bottom:10px}
+
+/* Projects */
+.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.proj{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.proj .thumb{height:150px;background:linear-gradient(135deg,#312e81,#7c3aed);display:grid;place-items:center;font-size:44px}
+.proj .body{padding:16px}
+.proj h3{margin:0 0 4px;font-size:15px}
+.proj p{color:var(--muted);font-size:13px;margin:0}
+
+/* Mentors */
+.mentors{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mentor{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center}
+.mentor .avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#f59e0b);margin:0 auto 12px;display:grid;place-items:center;font-size:28px}
+.mentor h3{margin:0;font-size:16px}
+.mentor .role{color:var(--muted);font-size:13px;margin:4px 0 8px}
+.mentor p{color:var(--muted);font-size:12px;margin:0}
+
+/* Testimonials */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.testi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+.testi .quote{font-size:14px;margin:0 0 14px}
+.testi .who{display:flex;align-items:center;gap:10px}
+.testi .av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#22c55e);display:grid;place-items:center;font-size:14px}
+.testi .name{font-size:13px;font-weight:700}
+.testi .role{font-size:11px;color:var(--muted)}
+
+/* Pricing */
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px}
+.price-card.featured{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary),var(--shadow);transform:scale(1.03)}
+.price-card .tier{font-size:13px;color:var(--primary-2);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.price-card .price{font-size:40px;font-weight:800;margin:8px 0 4px}
+.price-card .price span{font-size:14px;color:var(--muted);font-weight:500}
+.price-card ul{list-style:none;padding:0;margin:16px 0 20px;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)}
+.price-card ul li::before{content:"✓ ";color:var(--success);font-weight:700}
+.price-card .btn{width:100%;justify-content:center}
+
+/* FAQ */
+.faq{max-width:760px;margin:0 auto}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;padding:18px 20px}
+.faq-item h3{margin:0 0 6px;font-size:15px}
+.faq-item p{color:var(--muted);font-size:13px;margin:0}
+
+/* Lead capture section */
+.lead{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:20px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.lead h2{font-size:30px;margin:0 0 8px}
+.lead p{color:#c7d2fe;margin:0 0 18px;font-size:15px}
+.lead .perks{display:flex;flex-direction:column;gap:8px;font-size:14px}
+.lead .perks span::before{content:"✓ ";color:var(--accent-2);font-weight:700}
+.lead-form{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
+.lead-form .btn{width:100%;justify-content:center;margin-top:6px}
+
+/* Sticky CTA */
+.sticky{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(22,27,46,.9);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:999px;padding:8px 8px 8px 18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);z-index:60}
+.sticky span{font-size:13px;font-weight:600}
+.sticky .btn{padding:9px 18px;font-size:13px}
+
+/* Footer */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 0 24px;margin-top:40px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}
+footer h4{margin:0 0 12px;font-size:14px}
+footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)}
+footer a:hover{color:#fff}
+.footer-bottom{border-top:1px solid var(--border);margin-top:32px;padding-top:18px;display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero h1{font-size:36px}
+  .outcomes{grid-template-columns:repeat(2,1fr)}
+  .curriculum{grid-template-columns:1fr}
+  .who-grid,.projects,.mentors,.testi-grid,.pricing{grid-template-columns:1fr}
+  .lead{grid-template-columns:1fr}
+  .problem-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+}
+@media (max-width:560px){
+  .hero h1{font-size:30px}
+  .outcomes{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .sticky{width:calc(100% - 24px);border-radius:16px;flex-wrap:wrap;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#"><span class="logo-mark">⚡</span> AI Launchpad</a>
+    <div class="nav-links">
+      <a href="#curriculum">Curriculum</a>
+      <a href="#projects">Projects</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#lead">Talk to counselor</a>
+      <a class="btn btn-primary" href="#lead">Enroll now</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="chip">🚀 New cohort starts 15 Dec 2026 · Limited seats</span>
+      <h1>Learn <span class="grad">Practical AI</span> & digital skills that actually get you hired.</h1>
+      <p>Hands-on programmes for students and young professionals. Build real AI projects, automate workflows, and create a portfolio employers care about — in 8 weeks.</p>
+      <div class="hero-badges">
+        <span class="chip">✓ No coding required</span>
+        <span class="chip">✓ Live mentorship</span>
+        <span class="chip">✓ Placement support</span>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="n">1,200+</div><div class="l">Learners trained</div></div>
+        <div class="stat"><div class="n">85%</div><div class="l">Placement rate</div></div>
+        <div class="stat"><div class="n">4.9★</div><div class="l">Avg rating</div></div>
+      </div>
+    </div>
+    <div class="hero-form">
+      <h3>Get the free syllabus & counselling</h3>
+      <p>Share your details — we'll send the curriculum and call you within 24 hrs.</p>
+      <div class="form-row">
+        <div class="field"><input type="text" placeholder="Full name"></div>
+        <div class="field"><input type="email" placeholder="Email address"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><input type="tel" placeholder="Phone / WhatsApp"></div>
+        <div class="field">
+          <select><option>I am a…</option><option>Student</option><option>Working professional</option><option>Fresher</option><option>Career switcher</option></select>
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="field">
+          <select><option>Interested in…</option><option>AI for Productivity</option><option>AI Tools & Automation</option><option>AI for Content & Marketing</option><option>Full AI Launchpad (all)</option></select>
+        </div>
+      </div>
+      <button class="btn btn-accent">📥 Download Syllabus & Book Free Demo</button>
+      <div class="note">By submitting you agree to our privacy policy. No spam, ever.</div>
+    </div>
+  </div>
+</section>
+
+<div class="logos">
+  <div class="container logos-inner">
+    <span>TRUSTED BY LEARNERS FROM</span>
+    <span>IIT · NIT · BITS</span>
+    <span>Deloitte · TCS · Infosys</span>
+    <span>Startups & SMBs</span>
+    <span>Freelancers</span>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">The problem</div>
+      <h2>AI is moving fast. Most courses move slow.</h2>
+      <p>You don't need theory-heavy degrees. You need practical skills, real projects, and a portfolio that proves you can use AI to create value.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card"><div class="ico">📉</div><h3>Outdated syllabi</h3><p>Colleges teach tools from 3 years ago. The market wants people who can ship with today's AI.</p></div>
+      <div class="problem-card"><div class="ico">🧩</div><h3>Fragmented learning</h3><p>YouTube tutorials don't connect into a system. You learn bits, never a workflow.</p></div>
+      <div class="problem-card"><div class="ico">💼</div><h3>No proof of skill</h3><p>Certificates without projects don't get interviews. Portfolios do.</p></div>
+      <div class="problem-card"><div class="ico">⏱️</div><h3>No time to waste</h3><p>Students and working pros need compact, high-ROI programmes — not 6-month bootcamps.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Outcomes</div>
+      <h2>What you'll be able to do in 8 weeks</h2>
+    </div>
+    <div class="outcomes">
+      <div class="outcome"><div class="ico">🤖</div><h3>Use AI daily</h3><p>ChatGPT, Claude, Gemini, Perplexity for research, writing, coding.</p></div>
+      <div class="outcome"><div class="ico">⚙️</div><h3>Automate workflows</h3><p>Build no-code automations with Make, n8n, Zapier.</p></div>
+      <div class="outcome"><div class="ico">🎨</div><h3>Create content</h3><p>Design carousels, posts and videos with Canva + AI.</p></div>
+      <div class="outcome"><div class="ico">📊</div><h3>Analyse data</h3><p>Clean, summarise and visualise data with AI assistants.</p></div>
+      <div class="outcome"><div class="ico">🧠</div><h3>Prompt engineering</h3><p>Write prompts that produce reliable, on-brand outputs.</p></div>
+      <div class="outcome"><div class="ico">🚀</div><h3>Ship a project</h3><p>Launch a real AI product or workflow as your capstone.</p></div>
+      <div class="outcome"><div class="ico">💼</div><h3>Get interview-ready</h3><p>Portfolio, resume bullets, and mock interviews with AI.</p></div>
+      <div class="outcome"><div class="ico">🌐</div><h3>Freelance & earn</h3><p>Offer AI services to small businesses from week 4.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" id="curriculum">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Curriculum</div>
+      <h2>8 modules. Zero fluff.</h2>
+      <p>Each module blends concepts, live demos, hands-on labs and a mini-project.</p>
+    </div>
+    <div class="curriculum">
+      <div class="mod"><div class="num">01</div><div><h3>AI Foundations</h3><p>How LLMs work, prompt basics, choosing the right tool for the job.</p></div></div>
+      <div class="mod"><div class="num">02</div><div><h3>Prompt Engineering</h3><p>Frameworks, few-shot, chain-of-thought, evaluation and iteration.</p></div></div>
+      <div class="mod"><div class="num">03</div><div><h3>AI for Productivity</h3><p>Email, docs, research, meeting notes, personal knowledge systems.</p></div></div>
+      <div class="mod"><div class="num">04</div><div><h3>Content & Design with AI</h3><p>Carousels, copy, images, video scripts and brand voice.</p></div></div>
+      <div class="mod"><div class="num">05</div><div><h3>Automation & Agents</h3><p>Make, n8n, Zapier, AI agents, webhooks, scheduled jobs.</p></div></div>
+      <div class="mod"><div class="num">06</div><div><h3>Data & Analytics</h3><p>Cleaning, summarising, dashboards and AI-assisted insights.</p></div></div>
+      <div class="mod"><div class="num">07</div><div><h3>AI for Career & Business</h3><p>Resume, LinkedIn, freelancing, pricing AI services.</p></div></div>
+      <div class="mod"><div class="num">08</div><div><h3>Capstone Project</h3><p>Build and ship one real AI product or workflow. Reviewed by mentors.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Who it's for</div>
+      <h2>Built for ambitious beginners.</h2>
+    </div>
+    <div class="who-grid">
+      <div class="who"><div class="ico">🎓</div><h3>Students</h3><p>Stand out in placements with an AI portfolio and practical skills.</p></div>
+      <div class="who"><div class="ico">💼</div><h3>Young professionals</h3><p>Automate the boring parts of your job and get promoted faster.</p></div>
+      <div class="who"><div class="ico">🔄</div><h3>Career switchers</h3><p>Move into AI-adjacent roles without a CS degree.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" id="projects">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Projects</div>
+      <h2>You'll build these (and more).</h2>
+    </div>
+    <div class="projects">
+      <div class="proj"><div class="thumb">📱</div><div class="body"><h3>AI Content Engine</h3><p>Automated carousel + post generator for a brand.</p></div></div>
+      <div class="proj"><div class="thumb" style="background:linear-gradient(135deg,#065f46,#10b981)">🤖</div><div class="body"><h3>Personal AI Assistant</h3><p>Chatbot that answers from your own notes.</p></div></div>
+      <div class="proj"><div class="thumb" style="background:linear-gradient(135deg,#7c2d12,#f97316)">📊</div><div class="body"><h3>Data Insight Bot</h3><p>Upload CSV → get charts and insights.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Mentors</div>
+      <h2>Learn from practitioners, not theorists.</h2>
+    </div>
+    <div class="mentors">
+      <div class="mentor"><div class="avatar">A</div><h3>Aarav Mehta</h3><div class="role">AI Product Lead · Ex-Swiggy</div><p>Builds AI features used by millions. Teaches prompt systems.</p></div>
+      <div class="mentor"><div class="avatar" style="background:linear-gradient(135deg,#ec4899,#f59e0b)">P</div><h3>Priya Nair</h3><div class="role">Growth Marketer · D2C brands</div><p>Runs AI content engines for 10+ brands.</p></div>
+      <div class="mentor"><div class="avatar" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">R</div><h3>Rohan Iyer</h3><div class="role">Automation Engineer</div><p>Designs no-code workflows for SMBs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Testimonials</div>
+      <h2>Loved by learners.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi"><p class="quote">"I automated 60% of my marketing job in week 3. Got promoted in 2 months."</p><div class="who"><div class="av">S</div><div><div class="name">Sneha R.</div><div class="role">Marketing Associate</div></div></div></div>
+      <div class="testi"><p class="quote">"Finally a course that teaches how to actually use AI, not just theory."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">K</div><div><div class="name">Karan V.</div><div class="role">Final-year student</div></div></div></div>
+      <div class="testi"><p class="quote">"The capstone became my portfolio piece and landed me an internship."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#22c55e,#0ea5e9)">M</div><div><div class="name">Meera T.</div><div class="role">Career switcher</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Pricing</div>
+      <h2>Pick your track.</h2>
+    </div>
+    <div class="pricing">
+      <div class="price-card">
+        <div class="tier">Starter</div>
+        <div class="price">₹4,999 <span>/ cohort</span></div>
+        <ul>
+          <li>4 core modules</li>
+          <li>Live weekend sessions</li>
+          <li>Community access</li>
+          <li>Certificate</li>
+        </ul>
+        <a class="btn btn-outline" href="#lead">Enroll</a>
+      </div>
+      <div class="price-card featured">
+        <div class="tier">Launchpad (Most popular)</div>
+        <div class="price">₹9,999 <span>/ cohort</span></div>
+        <ul>
+          <li>All 8 modules</li>
+          <li>Live + recordings</li>
+          <li>1:1 mentor review</li>
+          <li>Capstone project</li>
+          <li>Placement support</li>
+        </ul>
+        <a class="btn btn-primary" href="#lead">Enroll now</a>
+      </div>
+      <div class="price-card">
+        <div class="tier">Pro</div>
+        <div class="price">₹17,999 <span>/ cohort</span></div>
+        <ul>
+          <li>Everything in Launchpad</li>
+          <li>Private mentorship</li>
+          <li>Freelance client leads</li>
+          <li>Lifetime updates</li>
+        </ul>
+        <a class="btn btn-outline" href="#lead">Enroll</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>Questions, answered.</h2>
+    </div>
+    <div class="faq">
+      <div class="faq-item"><h3>Do I need coding experience?</h3><p>No. The programme is designed for non-technical learners. We introduce light scripting only where needed.</p></div>
+      <div class="faq-item"><h3>How are classes delivered?</h3><p>Live online sessions on weekends (Sat–Sun) plus recordings and a private community.</p></div>
+      <div class="faq-item"><h3>What if I miss a session?</h3><p>All sessions are recorded and available for the cohort duration plus 6 months.</p></div>
+      <div class="faq-item"><h3>Is there placement support?</h3><p>Yes — resume review, mock interviews, and referrals for Launchpad & Pro tiers.</p></div>
+      <div class="faq-item"><h3>Can I pay in instalments?</h3><p>Yes, EMI options are available at checkout.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0" id="lead">
+  <div class="container">
+    <div class="lead">
+      <div>
+        <h2>Ready to become AI-fluent?</h2>
+        <p>Join the next cohort. Seats are limited to keep mentoring quality high.</p>
+        <div class="perks">
+          <span>Free 1:1 counselling call</span>
+          <span>Detailed syllabus PDF</span>
+          <span>Scholarship options for students</span>
+          <span>EMI & group discounts</span>
+        </div>
+      </div>
+      <div class="lead-form">
+        <h3 style="margin:0 0 4px;font-size:18px">Enquire now</h3>
+        <p style="color:var(--muted);font-size:13px;margin:0 0 12px">We'll call you within 24 hours.</p>
+        <div class="form-row"><div class="field"><input type="text" placeholder="Full name"></div></div>
+        <div class="form-row"><div class="field"><input type="email" placeholder="Email"></div></div>
+        <div class="form-row"><div class="field"><input type="tel" placeholder="Phone / WhatsApp"></div></div>
+        <div class="form-row"><div class="field"><select><option>Interested programme</option><option>AI for Productivity</option><option>AI Tools & Automation</option><option>AI for Content & Marketing</option><option>Full AI Launchpad</option></select></div></div>
+        <button class="btn btn-accent">🚀 Book Free Demo</button>
+        <div class="note" style="color:var(--muted);font-size:11px;margin-top:8px;text-align:center">Or WhatsApp us: +91 98765 43210</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sticky">
+  <span>🎯 Next cohort: 15 Dec · 12 seats left</span>
+  <a class="btn btn-accent" href="#lead">Enroll now</a>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#" style="color:#fff;margin-bottom:12px"><span class="logo-mark">⚡</span> AI Launchpad</a>
+        <p style="font-size:13px;color:var(--muted);margin:12px 0 0;max-width:300px">Practical AI & digital-skills programmes for students and young professionals.</p>
+      </div>
+      <div><h4>Programme</h4><ul><li><a href="#curriculum">Curriculum</a></li><li><a href="#projects">Projects</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h4>Resources</h4><ul><li><a href="#">Free AI tools list</a></li><li><a href="#">Blog</a></li><li><a href="#">Community</a></li><li><a href="#">Webinars</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="#">hello@ailaunchpad.in</a></li><li><a href="#">+91 98765 43210</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">Instagram</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AI Launchpad. All rights reserved.</span>
+      <span>Privacy · Terms · Refund policy</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
